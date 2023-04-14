@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet"  href="test.css">
+  <script src="test.js"></script>
+</head>
+<body>
+
+<h1>Test stuff</h1>
+<div id="mySidepanel" class="sidepanel">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
+
+<button class="openbtn" onclick="openNav()">&#9776; Toggle Sidepanel</button>
+<h2>Collapsed Sidepanel</h2>
+<p>Content...</p>
+
+<p>Your Notes:</p>
+<textarea id="note"></textarea>
+<br><button onclick="addNote()" type="submit">Submit</button>
+<p id="printNote"></p>
+       <br>
+
+</body>
