@@ -10,6 +10,10 @@ h1 {
     font-family: 'Alegreya', serif;
 }
 
+body {
+  font-family: 'Alegreya', serif;
+}
+
 h3 {
     margin-left: 525px;
     font-size: 20px;
@@ -80,4 +84,21 @@ body {
 
 #bookstoreTable {
   margin-left: 450px;
+}
+
+.center {
+  margin-left: 600px;
+}
+
+a {
+  color: rgb(46, 133, 96);
+}
+
+a:hover {
+  color: rgb(35, 211, 135);
+}
+
+input{
+  background-color: rgb(178, 243, 203);
+  border-color: rgb(178, 243, 203);
 }

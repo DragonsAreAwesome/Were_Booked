@@ -1,4 +1,5 @@
 const loginStatus = false;
+const usersname = []
 const bookList = [{
   name: 'The Unwanteds',
   author: 'Lisa McMann',
@@ -116,3 +117,24 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       document.getElementById("printNote").innerHTML = note
       console.log(note)
     }
+
+
+
+
+
+    function signUp() {
+      console.log('Submit')
+      var signusername = document.getElementById("signusername").value;
+      var signpassword = document.getElementById("signpassword").value;
+      var signpassword2 = document.getElementById("signpassword2").value;
+      if (signpassword !== signpassword2) {
+        alert('Your password and confirmed password are different. Please fill out again.')
+        window.location = 'Were_Booked-Sign.html'
+      } else {
+        alert("Your account information has been saved! Thank you for joining the We're Booked community!")
+        usersname.push(signusername, signpassword)
+      }
+      }
+      console.log(signusername + signpassword)
+      
+      event.preventDefault()
