@@ -5,6 +5,7 @@ Wweb Application:
 Instructions to open homepage
 
 Backend Instructions:
-Ask admin for creds.json
+Ask admin for credentials.json
+
 pip install -r requirements.txt
 python3 were-booked-api.py
