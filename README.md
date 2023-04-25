@@ -8,4 +8,5 @@ Backend Instructions:
 Ask admin for credentials.json
 
 pip install -r requirements.txt
+
 python3 were-booked-api.py
