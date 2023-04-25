@@ -1,0 +1,65 @@
+<html>
+<head>
+    <script>
+        const xhr = new XMLHttpRequest();
+        var userList;
+        function loadFunction() {
+
+            xhr.open("GET", "http://127.0.0.1:5000/add?x=1&y=2");
+            xhr.send();
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.response);
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+        }
+        function loadUsers() {
+
+            xhr.open("GET", "http://127.0.0.1:5000/users");
+            xhr.send();
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    userList=xhr.response;
+                    console.log(userList)
+
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+        }
+
+        function submitFunction() {
+            xhr.open("POST", "http://127.0.0.1:5000/login");
+            var formData = new FormData(document.getElementById("my-form-id"));
+            xhr.send(formData);
+
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    console.log(xhr.response);
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+            event.preventDefault();
+        }
+
+    </script>
+</head>
+<body onload="loadUsers()">
+
+<form method="post" id="my-form-id">
+    <label for="fname">First name:</label><br>
+    <input type="text" id="fname" name="fname" value="John"><br>
+    <label for="lname">Last name:</label><br>
+    <input type="text" id="lname" name="lname" value="Doe"><br><br>
+    <input type="button" onclick="submitFunction()" value="Submit form">
+</form>
+
+
+</body>
+</html>
