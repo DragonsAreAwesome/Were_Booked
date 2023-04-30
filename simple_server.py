@@ -14,6 +14,7 @@ def myapp():
 @app.route('/test')
 def test():
     message = {'test': True}
+    message['name'] = 'anissa'
     return message
 
 

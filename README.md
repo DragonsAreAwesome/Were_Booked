@@ -7,6 +7,6 @@ Instructions to open homepage
 Backend Instructions:
 Ask admin for credentials.json
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 python3 were-booked-api.py
