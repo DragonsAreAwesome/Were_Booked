@@ -7,7 +7,7 @@
     <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
 </head>
-<body>
+<body onload="loadProfile()">
     <div class="topnav">
         <a href="Were_Booked-Home.html">Home</a>
         <a href="Were_Booked-Book.html">Books</a>
@@ -22,11 +22,24 @@ style="width: 200px; height: 150px"> <br><br>
 <img id='profile' src="Were Booked profile.jpg"
 style="width: 100px; height: 75px"> <br><br>
 <p>Username:</p><br>
+<p id="profileUsername"></p>
 <p>Group(s):</p><br><br>
+<div>
+  <ul id="groupList">
+    <!--
+    <li  class="myDIV">FANTASY_RULES!</li>
+    <p class="hide">Fantasy rules is for all who love fantasy books! If you like Fantasy books, you have a place in this group!</p><br><br><br><br><br>
+    <li  class="myDIV">inventor_BOOKLOVERS!</li>
+    <p class="hide">We love reading, fanfiction and writing our own stories! Want to talk about writer’s block? Story ideas? Team up to write a fanfic? Join this group!</p><br><br><br><br><br>
+    <li  class="myDIV">PASSIONBOOKS!</li>
+    <p class="hide">Just a generic book club! Chill out, have fun, read! What is your favorite book! Share! Join this group!</p><br><br><br><br><br>
+    -->
+  </ul>
+</div>
 <p>Your Notes:</p>
-<textarea id="note"></textarea>
+<textarea id="noted"></textarea>
 <br><button onclick="addNote()" type="submit">Submit</button>
-<p id="printNote"></p>
+<p id="printNoted"></p>
        <br>
 </body>
 </html>

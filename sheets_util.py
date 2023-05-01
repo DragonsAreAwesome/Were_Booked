@@ -81,13 +81,13 @@ def get_values(domain, creds):
         range_name = BOOKS_SHEET_RANGE
     elif domain == 'groups':
         range_name = USER_GROUPS_SHEET_RANGE
-    elif domain == 'user-books':
+    elif domain == 'user_books':
         range_name = USER_BOOKS_SHEET_RANGE
     elif domain == 'notes':
         range_name = USER_NOTES_SHEET_RANGE
     elif domain == 'ratings':
         range_name = RATING_SHEET_RANGE
-    elif domain == 'user-groups':
+    elif domain == 'user_groups':
         range_name = USER_IN_GROUPS_SHEET_RANGE
     elif domain == 'bookstore':
         range_name = BOOKSTORE_SHEET_RANGE

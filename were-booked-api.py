@@ -60,21 +60,21 @@ def books():
 
     return jsonify(books_list)
 
-@app.route('/user-books')
-def user-books():
-    user-books = get_values("user-books", creds)
-    print(user-books)
-    user-books_list = []
-    for i in range(len(user-books)):
-        user-books_object = {}
-        user-books_object['user_id'] = user-books[i][0]
-        user-books_object['book_id'] = user-books[i][1]
-        user-books_object['priority'] = user-books[i][2]
-        user-books_object['finish_book_by'] = user-books[i][3]
-        user-books_object['status'] = user-books[i][4]
-        users-books_list.append(user-books_object)
+@app.route('/user_books')
+def user_books():
+    user_books = get_values("user_books", creds)
+    print(user_books)
+    user_books_list = []
+    for i in range(len(user_books)):
+        user_books_object = {}
+        user_books_object['user_id'] = user_books[i][0]
+        user_books_object['book_id'] = user_books[i][1]
+        user_books_object['priority'] = user_books[i][2]
+        user_books_object['finish_book_by'] = user_books[i][3]
+        user_books_object['status'] = user_books[i][4]
+        users_books_list.append(user_books_object)
 
-    return jsonify(user-books_list)
+    return jsonify(user_books_list)
 
 @app.route('/notes')
 def notes():
@@ -106,18 +106,18 @@ def ratings():
 
     return jsonify(ratings_list)
 
-@app.route('/user-groups')
-def user-groups():
-    user-groups = get_values("user-groups", creds)
-    print(user-groups)
-    user-groups_list = []
-    for i in range(len(user-groups)):
-        user-groups_object = {}
-        user-groups_object['user-groups_id'] = user-groups[i][0]
-        user-groups_object['groupName'] = user-groups[i][1]
-        user-groups_list.append(user-groups_object)
+@app.route('/user_groups')
+def user_groups():
+    user_groups = get_values("user_groups", creds)
+    print(user_groups)
+    user_groups_list = []
+    for i in range(len(user_groups)):
+        user_groups_object = {}
+        user_groups_object['user_groups_id'] = user_groups[i][0]
+        user_groups_object['groupName'] = user_groups[i][1]
+        user_groups_list.append(user_groups_object)
 
-    return jsonify(user-groups_list)
+    return jsonify(user_groups_list)
 
 @app.route('/bookstore')
 def bookstore():

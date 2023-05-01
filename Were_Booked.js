@@ -5,6 +5,14 @@ function loadHomeBody() {
   loadGroups();
   loadUsers();
 }
+
+
+function loadProfile() {
+  loadGroups();
+  loadUsers();
+}
+
+
 var groupsList;
 function loadGroups() {
   const xhr = new XMLHttpRequest();
@@ -42,8 +50,49 @@ function loadUsers() {
       }
   };
   }
-  var bookList;
-  
+  var bookList; //This is for the Load python books from the My books page
+ 
+  var bookstoreList
+  function loadBookstore() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://127.0.0.1:5000/bookstore");
+    xhr.send();
+    xhr.responseType = "json";
+    xhr.onload = () => {
+        if (xhr.status == 200) {
+          bookstoreList=xhr.response;
+            console.log(bookstoreList)
+            for (i = 0; i < bookstoreList.length; i++) {
+              console.log(bookstoreList[i].bookstoreName) }
+
+              var table = document.getElementById("bookstoreTable")
+              for (var i = 0; i<bookstoreList.length; i++) {
+                console.log(bookstoreList[0].bookstoreName);
+                var row = table.insertRow(1)
+                for (var j = 0; j< 3; j++) {
+                var column = row.insertCell(j)
+                switch (true) {
+                  case (j === 0):
+                    column.innerHTML = bookstoreList[i].bookstoreName
+                    break;
+                  case (j === 1):
+                    column.innerHTML = bookstoreList[i].bookstoreAddress
+                    break;
+                  case (j === 2):
+                    column.innerHTML = bookstoreList[i].bookstoreBook_id
+                    break;
+                  default:
+                    alert('Unable to access bookstore table information, please reload page.');
+                    break;
+                }
+                }
+              }
+        } else {
+            console.log(`Error: ${xhr.status}`);
+        }
+    };
+    }
+
 
   function loadBooksPython() {
     const xhr = new XMLHttpRequest();
@@ -167,13 +216,14 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
 
     function loadBooks() {
       loadBooksPython();
+      loadBookstore();
      
     }
 
     function addNote() {
-      var note = document.getElementById("note").value
-      document.getElementById("printNote").innerHTML = note
-      console.log(note)
+      var noted = document.getElementById("noted").value
+      document.getElementById("printNoted").innerHTML = noted
+      console.log(noted)
     }
 
 
