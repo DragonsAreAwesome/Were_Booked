@@ -1,19 +1,145 @@
-        var userList;
+        var userList; //Necessary all over!
+        var groupsList; //Necessary all over? So far...
+        var bookList; //This is for the Load python books from the My books page
+        var bookstoreList; //For the Bookstore in Load Books
+        var user_booksList; //This is for a table, the user_books table
+        var notesList; //This is for the notes table!
+        var ratingsList; //This is for the ratings table!
+        var user_groupsList; //This is for the user_group table!
+        var loginStatus = false;
 
-
-function loadHomeBody() {
+//Profile page below - 5/2/23
+function loadHome() {
   loadGroups();
+  loadUser_Groups()
   loadUsers();
+  loadRatings();
+  loadNotes();
+  loadUser_Books();
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
 }
-
-
+//Profile page below - 5/2/23
 function loadProfile() {
   loadGroups();
+  loadUser_Groups();
   loadUsers();
+  loadRatings();
+  loadNotes();
+  loadUser_Books();
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
+}
+//My Books page below - 5/2/23
+function loadMyBooks() {
+  loadBooksPython();
+  loadBookstore();
+  loadGroups();
+  loadUser_Groups();
+  loadUsers();
+  loadRatings();
+  loadNotes();
+  loadUser_Books();
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
+}
+//Books page below - 5/2/23
+function loadBooks() {
+  loadBooksPython();
+  loadBookstore();
+  loadGroups();
+  loadUser_Groups();
+  loadUsers();
+  loadRatings();
+  loadNotes();
+  loadUser_Books();
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
+}
+//Add Books page below - 5/2/23
+function loadAddBooks() {
+  loadGroups();
+  loadUser_Groups();
+  loadUsers();
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
 }
 
+//Going into TABLE FUNCTIONS BELOW!
 
-var groupsList;
+
+function loadUser_Groups() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", "http://127.0.0.1:5000/user_groups");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          user_groupsList=xhr.response;
+          console.log(user_groupsList)
+          for (i = 0; i < user_groupsList.length; i++) {
+            console.log(user_groupsList[i].id) }
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      }
+  };
+  }
+  
+function loadRatings() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", "http://127.0.0.1:5000/ratings");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          ratingsList=xhr.response;
+          console.log(ratingsList)
+          for (i = 0; i < ratingsList.length; i++) {
+            console.log(ratingsList[i].id) }
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      }
+  };
+  }
+
+function loadNotes() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", "http://127.0.0.1:5000/notes");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          notesList=xhr.response;
+          console.log(user_booksList)
+          for (i = 0; i < notesList.length; i++) {
+            console.log(notesList[i].id) }
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      }
+  };
+  }
+
+function loadUser_Books() {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("GET", "http://127.0.0.1:5000/user_books");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          user_booksList=xhr.response;
+          console.log(user_booksList)
+          for (i = 0; i < user_booksList.length; i++) {
+            console.log(user_booksList[i].id) }
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      }
+  };
+  }
+
 function loadGroups() {
   const xhr = new XMLHttpRequest();
   var ul = document.getElementById("groupList");
@@ -33,6 +159,7 @@ function loadGroups() {
       }
   };
   }
+
 function loadUsers() {
   const xhr = new XMLHttpRequest();
 
@@ -50,9 +177,7 @@ function loadUsers() {
       }
   };
   }
-  var bookList; //This is for the Load python books from the My books page
- 
-  var bookstoreList
+
   function loadBookstore() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://127.0.0.1:5000/bookstore");
@@ -93,7 +218,6 @@ function loadUsers() {
     };
     }
 
-
   function loadBooksPython() {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", "http://127.0.0.1:5000/books");
@@ -127,7 +251,7 @@ function loadUsers() {
                     break;
                     case (j === 4):
                       var link = 'https://www.w3schools.com'
-                    column.innerHTML = "<a href=" + bookList[i].linkToAmazon + ">Link</a>"
+                    column.innerHTML = "<a target='_blank' href=" + bookList[i].linkToAmazon + ">Link</a>"
                     break;
                     case (j === 5):
                     column.innerHTML = bookList[i].description
@@ -147,7 +271,6 @@ function loadUsers() {
     };
     }
 
-const loginStatus = false;
 const usersname = [['Anissa-Books', 'password', 'rgb(35, 211, 135)'], ['HimicaReads!', 'password', 'rgb(122, 202, 153)']]
 const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, description, ISBN) => {
     let book = {
@@ -162,10 +285,21 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       bookList.push(book)
     };
     function login() {
+      event.preventDefault();
       // let userName = 'Anissa-Books' || 'HimicaReads!' || 'Programmer-READER'
       let userName = document.getElementById("username").value;
       let password = document.getElementById("password").value;
-      switch (true) {
+      console.log('Working.')
+      for (i = 0; i < userList.length; i++) {
+        console.log(userList[i].id)
+        if (userName === userList[i].user_name && password === userList[i].password) {
+          loginStatus = true;
+          localStorage.setItem("id",userList[i].id);
+          alert(userName + ' logged in!')
+          break;
+        }
+         }
+      /* switch (true) {
         case (userName === 'Anissa-Books' && password === 'password'):
           alert('Anissa Logged in');
           loginStatus = true
@@ -181,11 +315,10 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
         default:
           alert('Alert! Invalid username or password');
           break;
-      }
+      } */
       loginStatus ? window.location = "Were_Booked-Home.html" :
       window.location = "Were_Booked-Login.html"
       console.log('login');
-      event.preventDefault();
     
     }
     
@@ -213,23 +346,14 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       
       event.preventDefault()
     }
-
-    function loadBooks() {
-      loadBooksPython();
-      loadBookstore();
-     
-    }
-
+    //Sort of working func below?... Work in progress, but nice!
     function addNote() {
       var noted = document.getElementById("noted").value
-      document.getElementById("printNoted").innerHTML = noted
+      var newnoted = document.getElementById("newnoted").value
+      document.getElementById("printNoted").innerHTML = noted + "<br>" + newnoted
       console.log(noted)
     }
-
-
-
-
-
+    //Sign up page!
     function signUp() {
       console.log('Submit')
       var signusername = document.getElementById("signusername").value;

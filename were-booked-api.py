@@ -72,7 +72,7 @@ def user_books():
         user_books_object['priority'] = user_books[i][2]
         user_books_object['finish_book_by'] = user_books[i][3]
         user_books_object['status'] = user_books[i][4]
-        users_books_list.append(user_books_object)
+        user_books_list.append(user_books_object)
 
     return jsonify(user_books_list)
 
