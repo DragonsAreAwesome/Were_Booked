@@ -100,7 +100,8 @@ a:hover {
 
 input{
   background-color: rgb(178, 243, 203);
-  border-color: rgb(178, 243, 203);
+  border-color: rgb(178, 243, 203);  
+  font-family: 'Alegreya', serif;
 }
 
 button {

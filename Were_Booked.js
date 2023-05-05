@@ -443,6 +443,29 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       document.getElementById("printNoted").innerHTML = noted + "<br>" + newnoted
       console.log(noted)
     }
+    //The job fo the function below is to save the users to the database.
+    function signUserSave() {
+      console.log('SignUserSave function woring')
+      var signusername = document.getElementById("signusername").value;
+      var signpassword = document.getElementById("signpassword").value;
+      var signpassword2 = document.getElementById("signpassword2").value;
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://127.0.0.1:5000/users");
+//var formData = new FormData(document.getElementById("my-form-id"));
+var new_data=[[4,signusername,signpassword,"rgb(35, 211, 135)"]];
+//new_data={data:new_data}
+xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhr.send(JSON.stringify({ "data":new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+xhr.responseType = "json";
+xhr.onload = () => {
+  if (xhr.readyState == 4 && xhr.status == 200) {
+      console.log(xhr.response);
+  } else {
+      console.log(`Error: ${xhr.status}`);
+  } //end of nested else
+}; // end of xhr.onload
+    }
+
     //Sign up page!
     function signUp() {
       console.log('Submit')
@@ -455,7 +478,10 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       } else {
         alert("Your account information has been saved! Thank you for joining the We're Booked community!")
         usersname.push(signusername, signpassword)
-      }
+        signUserSave()
+        localStorage.setItem("id",userList.id);
+        window.location = 'Were_Booked-Sign.html'
+      } //End of else statement
       console.log(signusername + signpassword)
       
       event.preventDefault()
