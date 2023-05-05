@@ -104,3 +104,35 @@ def get_values(domain, creds):
     except HttpError as error:
         print(f"An error occurred: {error}")
         return error
+
+def insert_values(domain, list_values, creds):
+    if domain == 'users':
+        range_name = USERS_SHEET_RANGE
+    elif domain == 'books':
+        range_name = BOOKS_SHEET_RANGE
+    else:
+        return {}
+
+    try:
+        service = build('sheets', 'v4', credentials=creds)
+
+    except:
+        return
+
+    range_ = range_name
+
+    # How the input data should be interpreted.
+    value_input_option = "USER_ENTERED"
+
+    # list = [["book1"], ["book2"], ["book3"]]
+    value_range_body = {
+        "majorDimension": "ROWS",
+        "values": list_values
+    }
+
+    request = service.spreadsheets().values().append(spreadsheetId=SPREADSHEET_ID, range=range_,
+                                                     valueInputOption=value_input_option,
+                                                     body=value_range_body)
+    response = request.execute()
+
+    print(response)

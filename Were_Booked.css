@@ -102,3 +102,26 @@ input{
   background-color: rgb(178, 243, 203);
   border-color: rgb(178, 243, 203);
 }
+
+button {
+  background-color: rgb(178, 243, 203);
+  border-color: rgb(178, 243, 203);
+  margin-left: 660px;
+  font-family: 'Alegreya', serif;
+}
+
+#signbutton {
+  margin-left: 50px;
+}
+
+#login {
+  margin-left: 600px;
+}
+
+#homep {
+  margin-left: 650px;
+}
+
+#bookstoreTable {
+  margin-left: 320px;
+}

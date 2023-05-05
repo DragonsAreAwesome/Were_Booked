@@ -1,7 +1,7 @@
 from flask import Flask, request,jsonify
 from flask_cors import CORS
 
-from sheets_util import authenticate_sheet, get_values
+from sheets_util import authenticate_sheet, get_values, insert_values
 
 app = Flask(__name__)
 CORS(app)
@@ -161,6 +161,14 @@ def login():
     else:
         return {}
 
+@app.route('/users', methods=['POST'])
+def post_users():
+    data = request.json
+    print(data)
+    data= data["data"]
+    print(data)
+    insert_values("users",list_values=data,creds=creds)
+    return {}
 
 if __name__ == '__main__':
     creds = authenticate_sheet()

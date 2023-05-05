@@ -18,6 +18,9 @@ function loadHome() {
   loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
 }
 //Profile page below - 5/2/23
 function loadProfile() {
@@ -29,19 +32,23 @@ function loadProfile() {
   loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
 }
 //My Books page below - 5/2/23
 function loadMyBooks() {
-  loadBooksPython();
+  loadUser_Books();
+  loadMyBooksPython();
   loadBookstore();
-  loadGroups();
-  loadUser_Groups();
   loadUsers();
   loadRatings();
   loadNotes();
-  loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
 }
 //Books page below - 5/2/23
 function loadBooks() {
@@ -55,6 +62,9 @@ function loadBooks() {
   loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
 }
 //Add Books page below - 5/2/23
 function loadAddBooks() {
@@ -63,6 +73,9 @@ function loadAddBooks() {
   loadUsers();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
 }
 
 //Going into TABLE FUNCTIONS BELOW!
@@ -70,7 +83,7 @@ function loadAddBooks() {
 
 function loadUser_Groups() {
   const xhr = new XMLHttpRequest();
-
+  console.log('User_Groups function called')
   xhr.open("GET", "http://127.0.0.1:5000/user_groups");
   xhr.send();
   xhr.responseType = "json";
@@ -79,7 +92,7 @@ function loadUser_Groups() {
           user_groupsList=xhr.response;
           console.log(user_groupsList)
           for (i = 0; i < user_groupsList.length; i++) {
-            console.log(user_groupsList[i].id) }
+            console.log(user_groupsList[i].user_groups_id) }
       } else {
           console.log(`Error: ${xhr.status}`);
       }
@@ -88,7 +101,7 @@ function loadUser_Groups() {
   
 function loadRatings() {
   const xhr = new XMLHttpRequest();
-
+  console.log('Ratings function called')
   xhr.open("GET", "http://127.0.0.1:5000/ratings");
   xhr.send();
   xhr.responseType = "json";
@@ -97,7 +110,7 @@ function loadRatings() {
           ratingsList=xhr.response;
           console.log(ratingsList)
           for (i = 0; i < ratingsList.length; i++) {
-            console.log(ratingsList[i].id) }
+            console.log(ratingsList[i].userratings_id) }
       } else {
           console.log(`Error: ${xhr.status}`);
       }
@@ -106,7 +119,7 @@ function loadRatings() {
 
 function loadNotes() {
   const xhr = new XMLHttpRequest();
-
+  console.log('Notes function called')
   xhr.open("GET", "http://127.0.0.1:5000/notes");
   xhr.send();
   xhr.responseType = "json";
@@ -115,7 +128,7 @@ function loadNotes() {
           notesList=xhr.response;
           console.log(user_booksList)
           for (i = 0; i < notesList.length; i++) {
-            console.log(notesList[i].id) }
+            console.log(notesList[i].usernotes_id) }
       } else {
           console.log(`Error: ${xhr.status}`);
       }
@@ -124,7 +137,7 @@ function loadNotes() {
 
 function loadUser_Books() {
   const xhr = new XMLHttpRequest();
-
+  console.log('User_Books function called')
   xhr.open("GET", "http://127.0.0.1:5000/user_books");
   xhr.send();
   xhr.responseType = "json";
@@ -133,15 +146,18 @@ function loadUser_Books() {
           user_booksList=xhr.response;
           console.log(user_booksList)
           for (i = 0; i < user_booksList.length; i++) {
-            console.log(user_booksList[i].id) }
+            console.log(user_booksList[i].user_id) }
+            return user_booksList;
       } else {
           console.log(`Error: ${xhr.status}`);
+          return []
       }
   };
   }
 
 function loadGroups() {
   const xhr = new XMLHttpRequest();
+  console.log('Groups function called')
   var ul = document.getElementById("groupList");
 
   xhr.open("GET", "http://127.0.0.1:5000/groups");
@@ -162,7 +178,9 @@ function loadGroups() {
 
 function loadUsers() {
   const xhr = new XMLHttpRequest();
-
+  console.log('Users function called')
+  var p = document.getElementById("profileUsername")
+  var currentUserId= localStorage.getItem("id");
   xhr.open("GET", "http://127.0.0.1:5000/users");
   xhr.send();
   xhr.responseType = "json";
@@ -170,6 +188,7 @@ function loadUsers() {
       if (xhr.status == 200) {
           userList=xhr.response;
           console.log(userList)
+          p.innerHTML+="<p>"+currentUserId+"</p>"
           for (i = 0; i < userList.length; i++) {
             console.log(userList[i].id) }
       } else {
@@ -180,6 +199,7 @@ function loadUsers() {
 
   function loadBookstore() {
     const xhr = new XMLHttpRequest();
+    console.log('Bookstore function called')
     xhr.open("GET", "http://127.0.0.1:5000/bookstore");
     xhr.send();
     xhr.responseType = "json";
@@ -220,6 +240,7 @@ function loadUsers() {
 
   function loadBooksPython() {
     const xhr = new XMLHttpRequest();
+    console.log('LoadBooksPython function called')
     xhr.open("GET", "http://127.0.0.1:5000/books");
     xhr.send();
     xhr.responseType = "json";
@@ -250,7 +271,6 @@ function loadUsers() {
                     column.innerHTML = bookList[i].genre
                     break;
                     case (j === 4):
-                      var link = 'https://www.w3schools.com'
                     column.innerHTML = "<a target='_blank' href=" + bookList[i].linkToAmazon + ">Link</a>"
                     break;
                     case (j === 5):
@@ -270,6 +290,76 @@ function loadUsers() {
         }
     };
     }
+
+    function loadMyBooksPython() {
+      const xhr = new XMLHttpRequest();
+      console.log('LoadMyBooksPython function called')
+      xhr.open("GET", "http://127.0.0.1:5000/books");
+      xhr.send();
+      xhr.responseType = "json";
+      xhr.onload = () => {
+          if (xhr.status == 200) {
+            bookList=xhr.response;
+              console.log(bookList)
+              for (i = 0; i < bookList.length; i++) {
+                console.log(bookList[i].ISBN) }
+                var table = document.getElementById("booksTable")
+                for (var i = 0; i<bookList.length; i++) {
+                  console.log(bookList[0].name);
+                  var row = table.insertRow(1)
+                  for (var j = 0; j< 7; j++) {
+                  var column = row.insertCell(j)
+                  switch (true) {
+                    case (j === 0):
+                      column.innerHTML = bookList[i].name
+                      break;
+                    case (j === 1):
+                      column.innerHTML = bookList[i].author
+                      break;
+                    case (j === 2):
+                      column.innerHTML = bookList[i].dateOfPublication
+                      break;
+                      case (j === 3):
+                      column.innerHTML = bookList[i].genre
+                      break;
+                      case (j === 4):
+                      column.innerHTML = "<a target='_blank' href=" + bookList[i].linkToAmazon + ">Link</a>"
+                      break;
+                      case (j === 5):
+                      column.innerHTML = bookList[i].description
+                      break;
+                      case (j === 6):
+                      column.innerHTML = bookList[i].ISBN
+                      break;
+                    default:
+                      alert('Loading the new information of the book did not work! Please try reloading.');
+                      break;
+                  }
+                  }
+                }
+          } else {
+              console.log(`Error: ${xhr.status}`);
+          }
+      };
+      }
+
+      function addBooksTest() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://127.0.0.1:5000/users");
+//var formData = new FormData(document.getElementById("my-form-id"));
+var new_data=[[4,"testuser1","testpassword","rgb(35, 211, 135)"], [5,"testuser2","testpassword","rgb(35, 211, 135)"], [6,"testuser3","testpassword","rgb(35, 211, 135)"]];
+//new_data={data:new_data}
+xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhr.send(JSON.stringify({ "data":new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+xhr.responseType = "json";
+xhr.onload = () => {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+        console.log(xhr.response);
+    } else {
+        console.log(`Error: ${xhr.status}`);
+    }
+};
+      }
 
 const usersname = [['Anissa-Books', 'password', 'rgb(35, 211, 135)'], ['HimicaReads!', 'password', 'rgb(122, 202, 153)']]
 const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, description, ISBN) => {
@@ -370,3 +460,8 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       
       event.preventDefault()
       }
+
+function loadLogout() {
+  localStorage.clear();
+  window.location = "Were_Booked-Login.html"
+}
