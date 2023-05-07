@@ -170,6 +170,43 @@ def post_users():
     insert_values("users",list_values=data,creds=creds)
     return {}
 
+@app.route('/books', methods=['POST'])
+def post_books():
+   data = request.json
+   print(data)
+   data = data["data"]
+   print(data)
+   insert_values("books", list_values=data, creds=creds)
+   return {}
+
+@app.route('/user_books', methods=['POST'])
+def post_user_books():
+   data = request.json
+   print(data)
+   data = data["data"]
+   print(data)
+   insert_values("user_books", list_values=data, creds=creds)
+   return {}
+
+
+@app.route('/ratings', methods=['POST'])
+def post_ratings():
+   data = request.json
+   print(data)
+   data = data["data"]
+   print(data)
+   insert_values("ratings", list_values=data, creds=creds)
+   return {}
+
+@app.route('/notes', methods=['POST'])
+def post_notes():
+   data = request.json
+   print(data)
+   data = data["data"]
+   print(data)
+   insert_values("notes", list_values=data, creds=creds)
+   return {}
+
 if __name__ == '__main__':
     creds = authenticate_sheet()
     app.run()

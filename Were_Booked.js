@@ -38,17 +38,17 @@ function loadProfile() {
 }
 //My Books page below - 5/2/23
 function loadMyBooks() {
-  loadUser_Books();
-  loadMyBooksPython();
-  loadBookstore();
-  loadUsers();
-  loadRatings();
-  loadNotes();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
     window.location = 'Were_Booked-Login.html'
   }
+  loadUser_Books();
+  loadBookstore();
+  loadUsers();
+  loadRatings();
+  loadNotes();
+  loadMyBooksInfo()
 }
 //Books page below - 5/2/23
 function loadBooks() {
@@ -59,7 +59,7 @@ function loadBooks() {
   loadUsers();
   loadRatings();
   loadNotes();
-  loadUser_Books();
+  loadBookInfo();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
@@ -143,10 +143,16 @@ function loadUser_Books() {
   xhr.responseType = "json";
   xhr.onload = () => {
       if (xhr.status == 200) {
-          user_booksList=xhr.response;
-          console.log(user_booksList)
-          for (i = 0; i < user_booksList.length; i++) {
-            console.log(user_booksList[i].user_id) }
+        var currUserBooksList = xhr.response;
+        user_booksList = [];
+        var currentUserId = localStorage.getItem("id");
+        for (i = 0; i < currUserBooksList.length; i++) {
+           if (currentUserId == currUserBooksList[i].user_id) {
+               user_booksList.push(currUserBooksList[i].book_id)
+           }
+        
+        }      
+        loadMyBooksPython()
             return user_booksList;
       } else {
           console.log(`Error: ${xhr.status}`);
@@ -188,6 +194,7 @@ function loadUsers() {
       if (xhr.status == 200) {
           userList=xhr.response;
           console.log(userList)
+          var currentUserId= localStorage.getItem("id");
           p.innerHTML+="<p>"+currentUserId+"</p>"
           for (i = 0; i < userList.length; i++) {
             console.log(userList[i].id) }
@@ -301,11 +308,12 @@ function loadUsers() {
           if (xhr.status == 200) {
             bookList=xhr.response;
               console.log(bookList)
-              for (i = 0; i < bookList.length; i++) {
-                console.log(bookList[i].ISBN) }
                 var table = document.getElementById("booksTable")
                 for (var i = 0; i<bookList.length; i++) {
                   console.log(bookList[0].name);
+                  if (user_booksList.indexOf(bookList[i].ISBN) >= 0) {
+                    
+              
                   var row = table.insertRow(1)
                   for (var j = 0; j< 7; j++) {
                   var column = row.insertCell(j)
@@ -335,7 +343,7 @@ function loadUsers() {
                       alert('Loading the new information of the book did not work! Please try reloading.');
                       break;
                   }
-                  }
+                  } }
                 }
           } else {
               console.log(`Error: ${xhr.status}`);
@@ -343,25 +351,8 @@ function loadUsers() {
       };
       }
 
-      function addBooksTest() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", "http://127.0.0.1:5000/users");
-//var formData = new FormData(document.getElementById("my-form-id"));
-var new_data=[[4,"testuser1","testpassword","rgb(35, 211, 135)"], [5,"testuser2","testpassword","rgb(35, 211, 135)"], [6,"testuser3","testpassword","rgb(35, 211, 135)"]];
-//new_data={data:new_data}
-xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-xhr.send(JSON.stringify({ "data":new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
-xhr.responseType = "json";
-xhr.onload = () => {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-        console.log(xhr.response);
-    } else {
-        console.log(`Error: ${xhr.status}`);
-    }
-};
-      }
 
-const usersname = [['Anissa-Books', 'password', 'rgb(35, 211, 135)'], ['HimicaReads!', 'password', 'rgb(122, 202, 153)']]
+/*const usersname = [['Anissa-Books', 'password', 'rgb(35, 211, 135)'], ['HimicaReads!', 'password', 'rgb(122, 202, 153)']]
 const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, description, ISBN) => {
     let book = {
         name: name,
@@ -373,7 +364,7 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
         ISBN: ISBN,
         }
       bookList.push(book)
-    };
+    }; */
     function login() {
       event.preventDefault();
       // let userName = 'Anissa-Books' || 'HimicaReads!' || 'Programmer-READER'
@@ -413,6 +404,7 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
     }
     
     function addBook2() {
+      event.preventDefault()
       console.log('Submit')
       var name = document.getElementById("book_name").value;
       var author = document.getElementById("book_author").value;
@@ -421,7 +413,6 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       var linkToAmazon = document.getElementById("book_link").value;
       var description = document.getElementById("book_description").value;
       var ISBN = document.getElementById("book_id").value;
-    bookFactory(name, author, dateOfPublication, genre, linkToAmazon, description, ISBN)
       var i = 0;
       var genre_array=[];
       
@@ -433,8 +424,21 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
     
       }
       console.log(name + author + dateOfPublication + linkToAmazon + description + ISBN)
-      
-      event.preventDefault()
+      const xhr = new XMLHttpRequest();
+xhr.open("POST", "http://127.0.0.1:5000/books");
+var new_data = [[ISBN, name, description, linkToAmazon, author, genre_array.join(", "), dateOfPublication]];
+
+xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+xhr.send(JSON.stringify({"data": new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+xhr.responseType = "json";
+xhr.onload = () => {
+   if (xhr.readyState == 4 && xhr.status == 200) {
+       console.log(xhr.response);
+   } else {
+       console.log(`Error: ${xhr.status}`);
+   } //end of nested else
+}; // end of xhr.onload
+console.log(name + author + dateOfPublication + linkToAmazon + description + ISBN)
     }
     //Sort of working func below?... Work in progress, but nice!
     function addNote() {
@@ -452,7 +456,8 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       const xhr = new XMLHttpRequest();
       xhr.open("POST", "http://127.0.0.1:5000/users");
 //var formData = new FormData(document.getElementById("my-form-id"));
-var new_data=[[4,signusername,signpassword,"rgb(35, 211, 135)"]];
+var user_id =  Date.now(); //Anissa
+var new_data=[[user_id,signusername,signpassword,"rgb(35, 211, 135)"]];
 //new_data={data:new_data}
 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 xhr.send(JSON.stringify({ "data":new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
@@ -460,6 +465,9 @@ xhr.responseType = "json";
 xhr.onload = () => {
   if (xhr.readyState == 4 && xhr.status == 200) {
       console.log(xhr.response);
+      localStorage.setItem("id",user_id);
+      alert("Your account information has been saved! Thank you for joining the We're Booked community!")
+      window.location = 'Were_Booked-Home.html'
   } else {
       console.log(`Error: ${xhr.status}`);
   } //end of nested else
@@ -476,11 +484,7 @@ xhr.onload = () => {
         alert('Your password and confirmed password are different. Please fill out again.')
         window.location = 'Were_Booked-Sign.html'
       } else {
-        alert("Your account information has been saved! Thank you for joining the We're Booked community!")
-        usersname.push(signusername, signpassword)
         signUserSave()
-        localStorage.setItem("id",userList.id);
-        window.location = 'Were_Booked-Sign.html'
       } //End of else statement
       console.log(signusername + signpassword)
       
@@ -490,4 +494,162 @@ xhr.onload = () => {
 function loadLogout() {
   localStorage.clear();
   window.location = "Were_Booked-Login.html"
+}
+
+function loadUserBooksInfo() {
+
+  var select = document.getElementById("selectBook");
+  const xhr = new XMLHttpRequest();
+  console.log('loadUserBooksInfo function called')
+  xhr.open("GET", "http://127.0.0.1:5000/books");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          bookList = xhr.response;
+          console.log(bookList)
+          for (var i = 0; i < bookList.length; i++) {
+              if (user_booksList.indexOf(bookList[i].ISBN) < 0) {
+                  continue;
+              }
+
+              var el = document.createElement("option");
+              el.textContent = bookList[i].name;
+              el.value = bookList[i].ISBN;
+              select.appendChild(el);
+
+          }
+      }
+  }
+}
+
+function loadMyBooksInfo() {
+  var currentUserId = localStorage.getItem("id");
+  console.log(currentUserId)
+  if (currentUserId === null) {
+      window.location = 'Were_Booked-Login.html'
+  }
+
+  const xhr = new XMLHttpRequest();
+  console.log('User_Books function called')
+  xhr.open("GET", "http://127.0.0.1:5000/user_books");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          console.log(user_booksList)
+          var currUserBooksList = xhr.response;
+          user_booksList = [];
+          var currentUserId = localStorage.getItem("id");
+
+          for (i = 0; i < currUserBooksList.length; i++) {
+              if (currentUserId == currUserBooksList[i].user_id) {
+                  user_booksList.push(currUserBooksList[i].book_id)
+              }
+
+          }
+          loadUserBooksInfo();
+      }
+  }
+}
+
+function addBookInfo() {
+  var ISBN = document.getElementById("selectBook").value;
+  var ratings = document.getElementById("ratings").value;
+  var notes = document.getElementById("notes").value;
+  var currentUserId = localStorage.getItem("id");
+  post_ratings(currentUserId,ISBN,ratings);
+  post_notes(currentUserId,ISBN,notes);
+  event.preventDefault();
+}
+
+function post_ratings(currentUserId,ISBN,ratings) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST", "http://127.0.0.1:5000/ratings");
+
+    var new_data = [[currentUserId, ISBN, ratings + ' stars', new Date().toJSON()]];
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({"data": new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.response);
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      } //end of nested else
+      event.preventDefault();
+  }; // end of xhr.onload
+}
+
+function post_notes(currentUserId,ISBN,notes) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST", "http://127.0.0.1:5000/notes");
+
+  var new_data = [[currentUserId, ISBN, notes , new Date().toJSON()]];
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({"data": new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.response);
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      } //end of nested else
+      event.preventDefault();
+  }; // end of xhr.onload
+}
+
+
+function addAllBookInfo() {
+  event.preventDefault();
+  var ISBN = document.getElementById("selectBook").value;
+  var priority = document.getElementById("priority").value;
+  var finishBy = document.getElementById("finishBookBy").value;
+      var status = document.getElementById("status").value;
+
+  var currentUserId = localStorage.getItem("id");
+  post_user_books(currentUserId,ISBN,priority,finishBy,status)
+}
+
+function loadBookInfo() {
+    var select = document.getElementById("selectBook");
+  const xhr = new XMLHttpRequest();
+  console.log('loadUserBooksInfo function called')
+  xhr.open("GET", "http://127.0.0.1:5000/books");
+  xhr.send();
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.status == 200) {
+          bookList = xhr.response;
+          for (var i = 0; i < bookList.length; i++) {
+              var el = document.createElement("option");
+              el.textContent = bookList[i].name;
+              el.value = bookList[i].ISBN;
+              select.appendChild(el);
+          }
+      }
+  }
+}
+
+function post_user_books(currentUserId,ISBN,priority,finishBy,status) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.open("POST", "http://127.0.0.1:5000/user_books");
+
+    var new_data = [[currentUserId, ISBN, priority,finishBy,status]];
+
+  xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  xhr.send(JSON.stringify({"data": new_data})) //xhr.send(new_data) OR xhr.send(JSON.parse(JSON.stringify(new_data)))
+  xhr.responseType = "json";
+  xhr.onload = () => {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+          console.log(xhr.response);
+      } else {
+          console.log(`Error: ${xhr.status}`);
+      } //end of nested else
+  }; // end of xhr.onload
 }

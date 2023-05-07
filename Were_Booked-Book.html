@@ -31,5 +31,23 @@ style="width: 400px; height: 300px"> <br><br>
     <th>International Standard Book Number</th>
   </tr>
 </table><br><br>
+
+<form id="bookInfoForm">
+  <br><br>Select Book<br>
+<select id="selectBook" required>
+<option>Choose a Book</option>
+</select>
+<br><br>Any number in the range of 1-5 as your priority.:<br>
+<br>Priority:<br>
+<input id="priority" type="number"  min="1" max="5"/><br><br>
+<br>Want to finish book by:<br>
+<textarea id="finishBookBy">Want to finish book by</textarea>
+<br><br>Status- Read? Reading? Want to Read?:<br>
+<input id="status" type="text"/>
+<br><button type="submit" onclick="addAllBookInfo()">Submit</button>
+<br>
+
+</form>
+
 </body>
 </html>
