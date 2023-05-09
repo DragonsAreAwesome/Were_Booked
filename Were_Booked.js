@@ -209,7 +209,6 @@ function joinGroup(){
             console.log(`Error: ${xhr.status}`);
         } //end of nested else
     }; // end of xhr.onload
-   alert('Thanks for joining!')
    }
 
 function loadUsers() {
