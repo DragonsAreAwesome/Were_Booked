@@ -9,7 +9,7 @@
 </head>
 <body onload="loadAddBooks()">
     <div class="topnav">
-        <a href="Were_Booked-Home.html">Home</a>
+        <a href="index.html">Home</a>
         <a href="Were_Booked-Book.html">Books</a>
         <a href="Were_Booked-Profile.html">Profile</a>
         <a href="Were_Booked-My_Books.html">My Books</a>
@@ -28,7 +28,7 @@ style="width: 400px; height: 300px"> <br><br>
        <br><br>Author: <input type="text" name="book_author" id="book_author"></input>
  <br><br>Book Link (to Amazon): <input type="text" name="book_link" id="book_link"></input><br> 
      <br><br>Date of Publication:<input type="text" name="book_publication" id="book_publication"></input>
-   <br><br>Genre:<br>
+   <br><br>Genre (Command click on Mac for multiple options, control click for Windows):<br>
        <select id="genre" name="genre" multiple>
    <option value="Nonfiction">Nonfiction</option>
    <option value="Science Fiction">Science Fiction</option>
@@ -42,6 +42,7 @@ style="width: 400px; height: 300px"> <br><br>
    <option value="Action Fiction">Action Fiction</option>
    <option value="Legend">Legend</option>
    <option value="Picture Book">Picture Book</option>
+   <option value="Realistic Fiction">Realistic Fiction</option>
    <option value="Other"> Other </option>
  </select>
     <br><button type="submit" onclick="addBook2()">Submit</button>

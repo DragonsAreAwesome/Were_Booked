@@ -10,31 +10,31 @@
 
 //Profile page below - 5/2/23
 function loadHome() {
-  loadGroups();
-  loadUser_Groups()
-  loadUsers();
-  loadRatings();
-  loadNotes();
-  loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
     window.location = 'Were_Booked-Login.html'
   }
+  loadGroups();
+  //loadUser_Groups()
+  //loadUsers();
+  //loadRatings();
+  //loadNotes();
+  //loadUser_Books();
 }
 //Profile page below - 5/2/23
 function loadProfile() {
-  loadGroups();
-  loadUser_Groups();
-  loadUsers();
-  loadRatings();
-  loadNotes();
-  loadUser_Books();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
     window.location = 'Were_Booked-Login.html'
   }
+  loadGroups();
+  //loadUser_Groups();
+  loadUsers();
+  //loadRatings();
+  loadNotes();
+  //loadUser_Books();
 }
 //My Books page below - 5/2/23
 function loadMyBooks() {
@@ -52,30 +52,30 @@ function loadMyBooks() {
 }
 //Books page below - 5/2/23
 function loadBooks() {
+  var currentUserId= localStorage.getItem("id");
+  console.log(currentUserId)
+  if (currentUserId === null) {
+    window.location = 'Were_Booked-Login.html'
+  }
   loadBooksPython();
-  loadBookstore();
-  loadGroups();
-  loadUser_Groups();
-  loadUsers();
+  //loadBookstore();
+  //loadGroups();
+  //loadUser_Groups();
+  //loadUsers();
   loadRatings();
   loadNotes();
   loadBookInfo();
-  var currentUserId= localStorage.getItem("id");
-  console.log(currentUserId)
-  if (currentUserId === null) {
-    window.location = 'Were_Booked-Login.html'
-  }
 }
 //Add Books page below - 5/2/23
 function loadAddBooks() {
-  loadGroups();
-  loadUser_Groups();
-  loadUsers();
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
     window.location = 'Were_Booked-Login.html'
   }
+  //loadGroups();
+  //loadUser_Groups();
+  //loadUsers();
 }
 
 //Going into TABLE FUNCTIONS BELOW!
@@ -397,7 +397,7 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
           alert('Alert! Invalid username or password');
           break;
       } */
-      loginStatus ? window.location = "Were_Booked-Home.html" :
+      loginStatus ? window.location = "index.html" :
       window.location = "Were_Booked-Login.html"
       console.log('login');
     
@@ -467,7 +467,7 @@ xhr.onload = () => {
       console.log(xhr.response);
       localStorage.setItem("id",user_id);
       alert("Your account information has been saved! Thank you for joining the We're Booked community!")
-      window.location = 'Were_Booked-Home.html'
+      window.location = 'index.html'
   } else {
       console.log(`Error: ${xhr.status}`);
   } //end of nested else
