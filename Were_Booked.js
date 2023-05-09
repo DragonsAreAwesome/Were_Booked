@@ -464,6 +464,7 @@ xhr.responseType = "json";
 xhr.onload = () => {
    if (xhr.readyState == 4 && xhr.status == 200) {
        console.log(xhr.response);
+       alert('Thank you for adding ' + name + '.')
    } else {
        console.log(`Error: ${xhr.status}`);
    } //end of nested else
@@ -590,6 +591,7 @@ function addBookInfo() {
   var currentUserId = localStorage.getItem("id");
   post_ratings(currentUserId,ISBN,ratings);
   post_notes(currentUserId,ISBN,notes);
+  alert('Thank you for rating and noting the book!')
   event.preventDefault();
 }
 
