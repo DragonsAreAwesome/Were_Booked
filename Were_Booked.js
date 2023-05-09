@@ -591,7 +591,6 @@ function addBookInfo() {
   var currentUserId = localStorage.getItem("id");
   post_ratings(currentUserId,ISBN,ratings);
   post_notes(currentUserId,ISBN,notes);
-  window.location = 'Were_Booked-My_Books.html'
   event.preventDefault();
 }
 
