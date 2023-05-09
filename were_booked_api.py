@@ -6,7 +6,7 @@ from sheets_util import authenticate_sheet, get_values, insert_values
 app = Flask(__name__)
 CORS(app)
 creds = None
-
+creds = authenticate_sheet()
 
 @app.route('/')
 def myapp():
@@ -207,6 +207,16 @@ def post_notes():
    insert_values("notes", list_values=data, creds=creds)
    return {}
 
+@app.route('/user_groups', methods=['POST'])
+def post_user_groups():
+  data = request.json
+  print(data)
+  data = data["data"]
+  print(data)
+  insert_values("user_groups", list_values=data, creds=creds)
+  return {}
+
+
 if __name__ == '__main__':
-    creds = authenticate_sheet()
+    
     app.run()

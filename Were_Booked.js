@@ -6,16 +6,18 @@
         var notesList; //This is for the notes table!
         var ratingsList; //This is for the ratings table!
         var user_groupsList; //This is for the user_group table!
+        //var Were_Booked_pyURL = "http://127.0.0.1:5000"
+        var Were_Booked_pyURL = "https://himicamagic.pythonanywhere.com/"
         var loginStatus = false;
 
-//Profile page below - 5/2/23
+//Home page below - 5/2/23
 function loadHome() {
   var currentUserId= localStorage.getItem("id");
   console.log(currentUserId)
   if (currentUserId === null) {
     window.location = 'Were_Booked-Login.html'
   }
-  loadGroups();
+  //loadGroups();
   //loadUser_Groups()
   //loadUsers();
   //loadRatings();
@@ -84,7 +86,7 @@ function loadAddBooks() {
 function loadUser_Groups() {
   const xhr = new XMLHttpRequest();
   console.log('User_Groups function called')
-  xhr.open("GET", "http://127.0.0.1:5000/user_groups");
+  xhr.open("GET", Were_Booked_pyURL + '/user_groups');
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -102,7 +104,7 @@ function loadUser_Groups() {
 function loadRatings() {
   const xhr = new XMLHttpRequest();
   console.log('Ratings function called')
-  xhr.open("GET", "http://127.0.0.1:5000/ratings");
+  xhr.open("GET", Were_Booked_pyURL + "/ratings");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -120,7 +122,7 @@ function loadRatings() {
 function loadNotes() {
   const xhr = new XMLHttpRequest();
   console.log('Notes function called')
-  xhr.open("GET", "http://127.0.0.1:5000/notes");
+  xhr.open("GET", Were_Booked_pyURL + "/notes");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -138,7 +140,7 @@ function loadNotes() {
 function loadUser_Books() {
   const xhr = new XMLHttpRequest();
   console.log('User_Books function called')
-  xhr.open("GET", "http://127.0.0.1:5000/user_books");
+  xhr.open("GET", Were_Booked_pyURL + "/user_books");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -165,8 +167,8 @@ function loadGroups() {
   const xhr = new XMLHttpRequest();
   console.log('Groups function called')
   var ul = document.getElementById("groupList");
-
-  xhr.open("GET", "http://127.0.0.1:5000/groups");
+  var select = document.getElementById("selectGroup");
+  xhr.open("GET", Were_Booked_pyURL + "/groups");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -175,19 +177,47 @@ function loadGroups() {
           console.log(groupsList)
           for (i = 0; i < groupsList.length; i++) {
             ul.innerHTML+="<li class='myDIV'>"+groupsList[i].groupName+"<p>"+groupsList[i].groupDescription + "</p></li>"
+            var el = document.createElement("option");
+            el.textContent = groupsList[i].groupName;
+            el.value = groupsList[i].groupID;
+            select.appendChild(el);
             console.log(groupsList[i].groupName) }
       } else {
           console.log(`Error: ${xhr.status}`);
       }
   };
   }
+function joinGroup(){
+    event.preventDefault();
+    var currentUserId = localStorage.getItem("id");
+   
+    var selectGroup = document.getElementById("selectGroup").value;
+   
+    const xhr = new XMLHttpRequest();
+   
+    xhr.open("POST", Were_Booked_pyURL + "/user_groups");
+   
+      var new_data = [[currentUserId, selectGroup]];
+   
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({"data": new_data}))
+    xhr.responseType = "json";
+    xhr.onload = () => {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            console.log(xhr.response);
+        } else {
+            console.log(`Error: ${xhr.status}`);
+        } //end of nested else
+    }; // end of xhr.onload
+   
+   }
 
 function loadUsers() {
   const xhr = new XMLHttpRequest();
   console.log('Users function called')
   var p = document.getElementById("profileUsername")
   var currentUserId= localStorage.getItem("id");
-  xhr.open("GET", "http://127.0.0.1:5000/users");
+  xhr.open("GET", Were_Booked_pyURL + "/users");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -207,7 +237,7 @@ function loadUsers() {
   function loadBookstore() {
     const xhr = new XMLHttpRequest();
     console.log('Bookstore function called')
-    xhr.open("GET", "http://127.0.0.1:5000/bookstore");
+    xhr.open("GET", Were_Booked_pyURL + "/bookstore");
     xhr.send();
     xhr.responseType = "json";
     xhr.onload = () => {
@@ -248,7 +278,7 @@ function loadUsers() {
   function loadBooksPython() {
     const xhr = new XMLHttpRequest();
     console.log('LoadBooksPython function called')
-    xhr.open("GET", "http://127.0.0.1:5000/books");
+    xhr.open("GET", Were_Booked_pyURL + "/books");
     xhr.send();
     xhr.responseType = "json";
     xhr.onload = () => {
@@ -301,7 +331,7 @@ function loadUsers() {
     function loadMyBooksPython() {
       const xhr = new XMLHttpRequest();
       console.log('LoadMyBooksPython function called')
-      xhr.open("GET", "http://127.0.0.1:5000/books");
+      xhr.open("GET", Were_Booked_pyURL + "/books");
       xhr.send();
       xhr.responseType = "json";
       xhr.onload = () => {
@@ -425,7 +455,7 @@ const bookFactory = (name, author, dateOfPublication, genre, linkToAmazon, descr
       }
       console.log(name + author + dateOfPublication + linkToAmazon + description + ISBN)
       const xhr = new XMLHttpRequest();
-xhr.open("POST", "http://127.0.0.1:5000/books");
+xhr.open("POST", Were_Booked_pyURL + "/books");
 var new_data = [[ISBN, name, description, linkToAmazon, author, genre_array.join(", "), dateOfPublication]];
 
 xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -454,7 +484,7 @@ console.log(name + author + dateOfPublication + linkToAmazon + description + ISB
       var signpassword = document.getElementById("signpassword").value;
       var signpassword2 = document.getElementById("signpassword2").value;
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", "http://127.0.0.1:5000/users");
+      xhr.open("POST", Were_Booked_pyURL + "/users");
 //var formData = new FormData(document.getElementById("my-form-id"));
 var user_id =  Date.now(); //Anissa
 var new_data=[[user_id,signusername,signpassword,"rgb(35, 211, 135)"]];
@@ -501,7 +531,7 @@ function loadUserBooksInfo() {
   var select = document.getElementById("selectBook");
   const xhr = new XMLHttpRequest();
   console.log('loadUserBooksInfo function called')
-  xhr.open("GET", "http://127.0.0.1:5000/books");
+  xhr.open("GET", Were_Booked_pyURL + "/books");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -532,7 +562,7 @@ function loadMyBooksInfo() {
 
   const xhr = new XMLHttpRequest();
   console.log('User_Books function called')
-  xhr.open("GET", "http://127.0.0.1:5000/user_books");
+  xhr.open("GET", Were_Booked_pyURL + "/user_books");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -566,7 +596,7 @@ function addBookInfo() {
 function post_ratings(currentUserId,ISBN,ratings) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "http://127.0.0.1:5000/ratings");
+  xhr.open("POST", Were_Booked_pyURL + "/ratings");
 
     var new_data = [[currentUserId, ISBN, ratings + ' stars', new Date().toJSON()]];
 
@@ -586,7 +616,7 @@ function post_ratings(currentUserId,ISBN,ratings) {
 function post_notes(currentUserId,ISBN,notes) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "http://127.0.0.1:5000/notes");
+  xhr.open("POST", Were_Booked_pyURL + "/notes");
 
   var new_data = [[currentUserId, ISBN, notes , new Date().toJSON()]];
 
@@ -619,7 +649,7 @@ function loadBookInfo() {
     var select = document.getElementById("selectBook");
   const xhr = new XMLHttpRequest();
   console.log('loadUserBooksInfo function called')
-  xhr.open("GET", "http://127.0.0.1:5000/books");
+  xhr.open("GET", Were_Booked_pyURL + "/books");
   xhr.send();
   xhr.responseType = "json";
   xhr.onload = () => {
@@ -638,7 +668,7 @@ function loadBookInfo() {
 function post_user_books(currentUserId,ISBN,priority,finishBy,status) {
   const xhr = new XMLHttpRequest();
 
-  xhr.open("POST", "http://127.0.0.1:5000/user_books");
+  xhr.open("POST", Were_Booked_pyURL + "/user_books");
 
     var new_data = [[currentUserId, ISBN, priority,finishBy,status]];
 
