@@ -591,8 +591,8 @@ function addBookInfo() {
   var currentUserId = localStorage.getItem("id");
   post_ratings(currentUserId,ISBN,ratings);
   post_notes(currentUserId,ISBN,notes);
-  alert('Thank you for rating and noting the book!')
   event.preventDefault();
+  alert('Thank you for rating and noting the book!')
 }
 
 function post_ratings(currentUserId,ISBN,ratings) {
