@@ -205,6 +205,7 @@ function joinGroup(){
     xhr.onload = () => {
         if (xhr.readyState == 4 && xhr.status == 200) {
             console.log(xhr.response);
+            document.getElementById("joinGroupForm").reset();
         } else {
             console.log(`Error: ${xhr.status}`);
         } //end of nested else
@@ -591,6 +592,7 @@ function addBookInfo() {
   var currentUserId = localStorage.getItem("id");
   post_ratings(currentUserId,ISBN,ratings);
   post_notes(currentUserId,ISBN,notes);
+  document.getElementById("bookInfoForm").reset();
   event.preventDefault();
 }
 
@@ -644,6 +646,7 @@ function addAllBookInfo() {
 
   var currentUserId = localStorage.getItem("id");
   post_user_books(currentUserId,ISBN,priority,finishBy,status)
+  document.getElementById("bookInfoForm").reset();
 }
 
 function loadBookInfo() {
