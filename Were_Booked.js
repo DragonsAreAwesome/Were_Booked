@@ -463,6 +463,7 @@ xhr.responseType = "json";
 xhr.onload = () => {
    if (xhr.readyState == 4 && xhr.status == 200) {
        console.log(xhr.response);
+       document.getElementById("bookForm").reset();
        alert('Thank you for adding ' + name + '.')
    } else {
        console.log(`Error: ${xhr.status}`);
