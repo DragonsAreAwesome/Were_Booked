@@ -225,7 +225,9 @@ function loadUsers() {
           userList=xhr.response;
           console.log(userList)
           var currentUserId= localStorage.getItem("id");
+              if(p!=null){
           p.innerHTML+="<p>"+currentUserId+"</p>"
+              }
           for (i = 0; i < userList.length; i++) {
             console.log(userList[i].id) }
       } else {
