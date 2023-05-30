@@ -518,6 +518,12 @@ xhr.onload = () => {
         alert('Your password and confirmed password are different. Please fill out again.')
         window.location = 'Were_Booked-Sign.html'
       } else {
+        for (var i = 0; i < userList.length; i++) {
+          if (signusername === userList[i]) {
+alert('This username already exists, please change.')
+break;
+window.location = 'Were_Booked-Sign.html'
+}
         signUserSave()
       } //End of else statement
       console.log(signusername + signpassword)
