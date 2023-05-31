@@ -521,8 +521,8 @@ xhr.onload = () => {
         for (var i = 0; i < userList.length; i++) {
           if (signusername === userList[i]) {
 alert('This username already exists, please change.')
-break;
-window.location = 'Were_Booked-Sign.html'
+  } else {
+    window.location = 'Were_Booked-Sign.html'
 }
         signUserSave()
       } //End of else statement
