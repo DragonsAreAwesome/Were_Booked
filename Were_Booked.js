@@ -530,6 +530,7 @@ alert('This username already exists, please change.')
       
       event.preventDefault()
       }
+    }
 
 function loadLogout() {
   localStorage.clear();
